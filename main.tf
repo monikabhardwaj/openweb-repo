@@ -15,6 +15,7 @@
 
  }
 
+
 resource "google_storage_bucket" "openweb-bucket" {
   location                    = "australia-southeast1"
   name                        = "openweb-bucket"
