@@ -10,13 +10,13 @@
   }
 
  provider "google" {
-   project = "openweb"
+   project = var.project
    region = "australia-southeast2"
-   zone = "australia-southeast2-a"
+
  }
 
 resource "google_storage_bucket" "openweb-bucket" {
-  location                    = "AU"
+  location                    = "australia-southeast1"
   name                        = "openweb-bucket"
   uniform_bucket_level_access = true
   force_destroy               = true
