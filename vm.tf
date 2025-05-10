@@ -3,6 +3,11 @@ resource "google_service_account" "openweb-sa" {
   display_name = "Custom SA for VM Instance"
 }
 
+data "google_compute_image" "debian" {
+  family  = "debian-11"
+  project = "debian-cloud"
+}
+
 resource "google_compute_instance" "openweb" {
   machine_type = "n2-standard-2"
   name         = "my-instance-openweb"
@@ -13,10 +18,7 @@ tags = ["foo", "bar"]
 
 boot_disk {
   initialize_params {
-    image = "debian-cloud/debian-11"
-    labels = {
-      my_label = "value"
-    }
+    image = data.google_compute_image.debian.self_link #self-link latest image
   }
 }
 
