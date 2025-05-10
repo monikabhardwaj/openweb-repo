@@ -18,7 +18,7 @@
 
 resource "google_storage_bucket" "openweb-bucket" {
   location                    = "australia-southeast1"
-  name                        = "openweb-bucket"
+  name                        = "openweb-bucket1"
   uniform_bucket_level_access = true
   force_destroy               = true
 
