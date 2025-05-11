@@ -5,4 +5,6 @@ variable "project" {
   default = "openweb-459102" # Set a default value or ensure it's passed in
 }
 
-variable "vm" {}
+variable "vm" {
+
+}

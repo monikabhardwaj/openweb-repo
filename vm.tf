@@ -6,43 +6,40 @@ resource "google_service_account" "openweb-sa" {
 data "google_compute_image" "debian" {
   family  = "debian-11"
   project = "debian-cloud"
-}
+  }
 
-resource "google_compute_instance" "openweb" {
+resource "google_compute_instance" "debian" {
   machine_type = "n2-standard-2"
   name         = "my-instance-openweb"
   zone         = "australia-southeast1"
-}
 
-tags = ["foo", "bar"]
+  tags = ["foo", "bar"]
 
-boot_disk {
-  initialize_params {
-    image = data.google_compute_image.debian.self_link #self-link latest image
+  boot_disk {
+    initialize_params {
+      image = data.google_compute_image.debian.self_link #self-link latest image
+      size = 10
+    }
   }
-}
 
-// Local SSD disk
-scratch_disk {
-  interface = "NVME"
-}
-
-network_interface {
-  network = "default"
-
-  access_config {
-    // Ephemeral public IP
+  // Local SSD disk
+  scratch_disk {
+    interface = "NVME"
   }
-}
 
-metadata = {
-  foo = "bar"
-}
+  network_interface {
+    network = "default"
 
-metadata_startup_script = "echo hi > /test.txt"
+    access_config {
+      // Ephemeral public IP
+    }
+  }
 
-service_account {
-  # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-  email  = google_service_account.openweb-sa.email
-  scopes = ["cloud-platform"]
+  #metadata_startup_script = "echo hi > /test.txt"
+
+  service_account {
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    email = google_service_account.openweb-sa.email
+    scopes = ["cloud-platform"]
+  }
 }

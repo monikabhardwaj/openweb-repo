@@ -12,9 +12,13 @@
  provider "google" {
    project = var.project
    region = "australia-southeast2"
-
  }
 
+resource "google_project_service" "openweb-vm" {
+  project            = var.project
+  service            = "compute.googleapis.com"
+  disable_on_destroy = false
+}
 
 resource "google_storage_bucket" "openweb-bucket" {
   location                    = "australia-southeast1"
