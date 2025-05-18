@@ -1,5 +1,10 @@
 # openweb-repo
-Deploying standard infra components - Terraform (Test repo)
+Deploying standard infra components - Terraform 
 
-This repo contains the basic google cloud infrastructure components.
-No Levels are defined
+This repo has simple steps to create the basic GCP resources using Terraform.Such as:
+ - Virtual Machine
+ - Cloud Bucket
+ - Secure VM connections using metadata
+
+
+
