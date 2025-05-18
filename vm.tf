@@ -11,9 +11,9 @@ data "google_compute_image" "debian" {
 resource "google_compute_instance" "debian" {
   machine_type = "n2-standard-2"
   name         = "my-instance-openweb"
-  zone         = "australia-southeast1"
+  zone         = "australia-southeast2-b"
 
-  tags = ["foo", "bar"]
+  tags = ["ssh"]
 
   boot_disk {
     initialize_params {
@@ -33,6 +33,7 @@ resource "google_compute_instance" "debian" {
     access_config {
       // Ephemeral public IP
     }
+
   }
 
   #metadata_startup_script = "echo hi > /test.txt"
@@ -42,4 +43,26 @@ resource "google_compute_instance" "debian" {
     email = google_service_account.openweb-sa.email
     scopes = ["cloud-platform"]
   }
+  metadata = {
+    "ssh-keys" = <<EOT
+     dev : SHA256:rplHojbM3AwthIRAsmGYznSHV/r5RN5dYRgWDxnvudA openweb
+     EOT
+
+    #"openweb:${file("~/.ssh/id_rsa.pub")} openweb"
+  }
+}
+
+resource "google_compute_firewall" "ssh" {
+  name        = "ssh-access"
+  network     = "default"
+  description = "Creates firewall rule targeting tagged instances"
+
+  allow {
+    protocol  = "tcp"
+    ports     = ["22", "8080"]
+  }
+
+  target_tags = ["ssh"]
+  source_ranges = ["0.0.0.0/0"]
+
 }
