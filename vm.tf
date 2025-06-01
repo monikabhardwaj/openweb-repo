@@ -36,8 +36,6 @@ resource "google_compute_instance" "debian" {
 
   }
 
-  #metadata_startup_script = "echo hi > /test.txt"
-
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email = google_service_account.openweb-sa.email
@@ -50,6 +48,9 @@ resource "google_compute_instance" "debian" {
 
     #"openweb:${file("~/.ssh/id_rsa.pub")} openweb"
   }
+  #startup_script = templatefile(
+  #  "./scripts/provisions.sh",
+  #  {})
 }
 
 resource "google_compute_firewall" "ssh" {
